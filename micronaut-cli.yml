@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: at.favre.server
+---
+testFramework: junit
+sourceLanguage: java
