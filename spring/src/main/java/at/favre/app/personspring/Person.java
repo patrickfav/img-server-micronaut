@@ -1,4 +1,4 @@
-package at.favre.server.person;
+package at.favre.app.personspring;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

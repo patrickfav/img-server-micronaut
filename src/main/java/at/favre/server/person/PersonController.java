@@ -26,6 +26,7 @@ public class PersonController {
             return HttpResponse.ok(p.get());
         }
 
+
         throw new NotFoundException();
     }
 

@@ -1,10 +1,10 @@
-package at.favre.server.person;
+package at.favre.app.personspring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-@Singleton
+@Component
 public class PersonDaoImpl implements PersonDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersonDaoImpl.class);
 
     private final DataSource dataSource;
 
-    @Inject
+    @Autowired
     public PersonDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -31,7 +31,6 @@ public class PersonDaoImpl implements PersonDao {
     public void create(Person p) {
         try (Connection con = dataSource.getConnection()) {
             con.setAutoCommit(false);
-
             PreparedStatement pstmt = con
                     .prepareStatement("INSERT INTO PERSON (id, name, age) VALUES ( ? , ? , ? )");
             pstmt.setLong(1, p.getId() == 0 ? new Random().nextLong() : p.getId());
@@ -50,7 +49,6 @@ public class PersonDaoImpl implements PersonDao {
 
         try (Connection con = dataSource.getConnection()) {
             con.setAutoCommit(false);
-
             PreparedStatement pstmt = con.prepareStatement("SELECT * FROM PERSON LIMIT 1500");
             ResultSet set = pstmt.executeQuery();
 
@@ -69,7 +67,6 @@ public class PersonDaoImpl implements PersonDao {
     public Optional<Person> findById(long id) {
         try (Connection con = dataSource.getConnection()) {
             con.setAutoCommit(false);
-
             PreparedStatement pstmt = con.prepareStatement("SELECT * FROM PERSON WHERE PERSON.ID = ?");
             pstmt.setLong(1, id);
             ResultSet set = pstmt.executeQuery();
